@@ -1,0 +1,7 @@
+{
+    "require": {
+        "parsecsv/php-parsecsv": "^1.2",
+        "smarty/smarty": "^3.1",
+        "mrjgreen/database": "^2.5"
+    }
+}

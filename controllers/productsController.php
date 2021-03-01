@@ -2,7 +2,7 @@
 
 switch ($action) {
   
-  case 'get':
+  case 'import':
     
 
     $apikey = "d0337619d35e2c45cee6b39ab4268f62af15332f5f4b1b1aa5e0e8fc0750dd5cb9ae2a2d";
@@ -17,29 +17,37 @@ switch ($action) {
     for($i=0; $i<sizeof($products); $i++){
       $p = $products[$i]['produto'];
       
-      if(!$p['codigoPai']){
+      if(!$p['codigoPai'] && !$p['variacoes']){
+
         $data = array(
+          'id_category' => $p['categoria']['id'],
           'sku' => $p['codigo'],
           'title' => $p['descricao'],
           'price' => $p['preco'],
           'description' => $p['descricaoCurta'],
           'img' => $p['imageThumbnail'],
+          'ean' => $p['gtin'],
+          'weight' => $p['pesoBruto'],
+          'width' => $p['larguraProduto'],
+          'height' => $p['alturaProduto'],
+          'length' => $p['profundidadeProduto'],
+          'stock' => $p['estoqueAtual'],
+          'brand' => $p['marca']
         );
-        print_r($p);
-        break;
+        $db->table('products')->insertUpdate($data,$data);
+        
       }
       
-      
-      
     }
-    
+    $db->query('DELETE FROM products WHERE sku LIKE "CC%"');
     
 
 
   break;
+
   
   default:
-    # code...
+    $smarty->display('views/base.html');
   break;
 }
 

@@ -42,9 +42,17 @@ $url = explode("/", $uri);
 $key = $url[0] ? $url[0] : 'home';
 $action = $url[1] ? $url[1] : 'index';
 
-if(file_exists('./controllers/'.$key.'Controller.php')){
-    include('./controllers/'.$key.'Controller.php');
+$_SESSION['user']['id'] = 1;
+
+if($_SESSION['user']['id']){
+    if(file_exists('./controllers/'.$key.'Controller.php')){
+        include('./controllers/'.$key.'Controller.php');
+    }
+    else{
+        include('./controllers/errorController.php');
+    }
 }
 else{
-    include('./controllers/errorController.php');
+    include('./controllers/loginController.php');
 }
+
